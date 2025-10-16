@@ -1,0 +1,43 @@
+kf-keras python-multipart
+
+pip install torch torchvision torchaudio
+
+git clone https://github.com/xinntao/Real-ESRGAN.git
+cd Real-ESRGAN
+pip install -r requirements.txt
+python setup.py develop  # 또는 pip install -e .
+
+
+실사용 예시 (real-esrgan/utils.py 63번째 줄 부근 수정)
+# 원래 코드 예시
+loadnet = torch.load(model_path, map_location=torch.device('cpu'))
+
+# 수정할 코드
+loadnet = torch.load(model_path, map_location=torch.device('cpu'), weights_only=False)
+
+C:\Users\pc\anaconda3\Lib\site-packages\basicsr\data\degradations.py 에서
+이 부분을:
+
+python
+복사
+편집
+from torchvision.transforms.functional_tensor import rgb_to_grayscale
+다음으로 바꾸고:
+
+python
+복사
+편집
+from torchvision.transforms._functional_tensor import rgb_to_grayscale
+
+import numpy as np
+from PIL import Image
+from keras.models import Model
+from keras.layers import Dense, Dropout
+from keras.applications.mobilenet import MobileNet, preprocess_input
+from keras.preprocessing.image import img_to_array
+import tensorflow as tf
+from fastapi import FastAPI, File, UploadFile
+from fastapi.responses import JSONResponse
+from pydantic import BaseModel
+from PIL import Image
+import io

@@ -1,0 +1,37 @@
+{
+  "name": "my-simple-agent",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "ts-patch install"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/multer": "^2.0.0",
+    "@types/node": "^24.3.3",
+    "@types/xlsx": "^0.0.35",
+    "ts-node": "^10.9.2",
+    "ts-patch": "^3.3.0",
+    "typescript": "~5.8.3",
+    "typia": "^9.7.2"
+  },
+  "dependencies": {
+    "@agentica/core": "^0.29.6",
+    "@google-cloud/vision": "^5.2.0",
+    "axios": "^1.10.0",
+    "cors": "^2.8.5",
+    "cron": "^4.3.3",
+    "dotenv": "^16.6.1",
+    "express": "^5.1.0",
+    "multer": "^2.0.2",
+    "node-cron": "^4.2.1",
+    "openai": "^5.20.2",
+    "xlsx": "^0.18.5"
+  }
+}
