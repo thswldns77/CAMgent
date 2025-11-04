@@ -4,9 +4,11 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:gal/gal.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'app_theme.dart';
 import 'camera_settings.dart';
@@ -534,6 +536,48 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
           if (message.youtubeUrl != null) ...[
             const SizedBox(height: 8),
             YouTubePreviewTile(youtubeUrl: message.youtubeUrl!),
+            // ▼ 링크 바(표시 + 복사 + 외부 열기)
+            const SizedBox(height: 6),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.04),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.white.withOpacity(0.06)),
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.link, size: 18),
+                  const SizedBox(width: 8),
+                  // 전체 링크 선택/복사 가능하게
+                  Expanded(
+                    child: SelectableText(
+                      message.youtubeUrl!,
+                      style: const TextStyle(fontSize: 14),
+                    ),
+                  ),
+                  const SizedBox(width: 6),
+                  // 복사 버튼
+                  IconButton(
+                    tooltip: '링크 복사',
+                    icon: const Icon(Icons.copy, size: 18),
+                    onPressed: () async {
+                      await Clipboard.setData(ClipboardData(text: message.youtubeUrl!));
+                      if (!mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('링크가 클립보드에 복사됐어요')),
+                      );
+                    },
+                  ),
+                  // 외부 브라우저 열기
+                  IconButton(
+                    tooltip: '브라우저에서 열기',
+                    icon: const Icon(Icons.open_in_new, size: 18),
+                    onPressed: () => _openExternal(message.youtubeUrl!),
+                  ),
+                ],
+              ),
+            ),
           ],
         ],
       ),
@@ -649,6 +693,16 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
     _sendMessage(text: trimmed, imagePath: _pendingImagePath);
     _textController.clear();
     setState(() => _pendingImagePath = null);
+  }
+
+  Future<void> _openExternal(String url) async {
+    final uri = Uri.tryParse(url);
+    if (uri == null) {
+      _showErrorSnackBar('잘못된 링크 형식입니다.');
+      return;
+    }
+    final ok = await launchUrl(uri, mode: LaunchMode.externalApplication);
+    if (!ok) _showErrorSnackBar('링크를 열 수 없습니다.');
   }
 
   @override

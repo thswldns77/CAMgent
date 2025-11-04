@@ -33,13 +33,12 @@ class ApiResponse {
 // ApiService 클래스 개선
 class ApiService {
   static String idToken = '' ;
-  static const String apiUrl = 'http://ip주소:포트/agent-conversation';
-  static const String apiUrl2 = 'http://ip주소:포트/history';
+  static const String apiUrl = 'http://175.195.220.160:9877/agent-conversation';
+  static const String apiUrl2 = 'http://175.195.220.160:9877/history';
 
 
   static const String serverClientId =
-  '';
-
+      '395566260924-cavpb3cvs21ql3jlli19sc5a11dmtgnk.apps.googleusercontent.com';
   static bool _initialized = false;
 
   /// 플러그인 초기화 (앱 시작 시 1회)
