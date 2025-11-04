@@ -33,8 +33,8 @@ class ApiResponse {
 // ApiService 클래스 개선
 class ApiService {
   static String idToken = '' ;
-  static const String apiUrl = 'http://175.195.220.160:9877/agent-conversation';
-  static const String apiUrl2 = 'http://175.195.220.160:9877/history';
+  static const String apiUrl = 'http://:9877/agent-conversation';
+  static const String apiUrl2 = 'http://:9877/history';
 
 
   static const String serverClientId =
